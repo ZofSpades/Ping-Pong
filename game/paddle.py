@@ -1,3 +1,4 @@
+# paddle.py
 import pygame
 
 class Paddle:

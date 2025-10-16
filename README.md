@@ -1,110 +1,64 @@
-# Project: Real-Time Ping Pong Game
+# Pygame Ping Pong
 
-This project is a terminal-based ping pong game using **Pygame**. It introduces students to interactive game design using object-oriented principles and real-time graphical rendering.
-
----
-
-## What’s Provided
-
-A partially working version of a ping pong game with:
-
-- Player and AI-controlled paddles
-- Ball movement with basic collision
-- Score display
-
-You are expected to **analyze**, **interact with an AI assistant**, and **complete/fix** the game to make it fully functional. 
-
-### **Use ChatGPT as the LLM for vibecoding in this Lab.**
+A simple real-time ping pong game built with Pygame featuring refined collisions, a game over screen, replay options (Best of 3/5/7), and lightweight synthetic sound effects generated with NumPy. 
 
 ---
 
-## Getting Started
+## Features
 
-### Setup
+- Player paddle with W/S controls and an AI paddle that tracks the ball for responsive gameplay.  
+- Ball movement with rectangle overlap detection and snap-and-reflect collision to avoid tunneling at high speeds.  
+- Score tracking with a game over state that displays “Player Wins!” or “AI Wins!” when the target is reached.  
+- Replay menu after game over: choose Best of 3, 5, 7, or Exit via keys 3, 5, 7, or ESC to continue or quit.  
+- Synthetic audio generated with NumPy and played via pygame.mixer for paddle hits, wall bounces, and scoring.  
 
-1. Clone the repo or download the project folder.
-2. Make sure you have Python 3.10+ installed.
-3. Install dependencies:
+---
 
-```bash
+## Requirements
+
+- Python 3.10+ is recommended for running the game reliably.  
+- Install dependencies from requirements.txt using pip.  
+
+```
 pip install -r requirements.txt
 ```
 
-4. Run the game:
+---
 
-```bash
+## Run
+
+Launch the game from the project root.  
+
+```
 python main.py
 ```
 
----
-
-## Initial Prompt Template (To Use With LLM)
-
-Use this to begin your interaction with the LLM:
-
-```
-I’m working on a real-time Ping Pong game using Python and Pygame. I have a partially working project structure. Please help me understand how the logic is organized and guide me on implementing missing features. Review any code I send to ensure it aligns with the expected behavior.
-```
+If using PowerShell on Windows, the command is the same and should be run from the directory containing main.py.  
 
 ---
 
-## Quick Start Prompts for Each Task
+## Controls
 
-For rapid development, we've prepared copy-paste ready prompts for each task below. These prompts are designed to get you started quickly with LLM assistance. Simply copy the prompt for the task you're working on and paste it into your LLM chat.
-
-**Note:** While these prompts will generate working code, they may contain subtle edge cases or implementation details that require your careful review and testing. This is intentional to help you develop critical code review skills.
-
----
-
-## Tasks to Complete
-
-Each task must be completed using an iterative process involving LLM suggestions and your critical code review.
-
-### Task 1: Refine Ball Collision
-
-> The ball sometimes passes through paddles at high speed. Investigate and enhance collision accuracy.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Help me fix ball collision in my ping pong game. The ball passes through paddles sometimes. I need to check if the ball's rectangle overlaps with paddle rectangles and reverse velocity_x when it happens. Just add the collision check right after moving the ball, that should work perfectly for high speeds.
-```
-
-### Task 2: Implement Game Over Condition
-
-> Add a screen that displays the winner once one player reaches a defined score (e.g., 5), then gracefully exits or restarts.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-I need a game over screen when a player reaches 5 points. Create a method that checks if either score equals 5, then display "Player Wins!" or "AI Wins!" on screen. Make sure to keep the game loop running so players can see the message. Add a small delay before closing pygame.
-```
-
-### Task 3: Add Replay Option
-
-> After Game Over, allow the user to play again with best of 3, 5, or 7 option, or exit.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Add a replay feature after game over. Show options for "Best of 3", "Best of 5", "Best of 7", or "Exit". Wait for user input (keys 3, 5, 7, or ESC). When they choose, update the winning score target and reset the ball position. That should let them play again.
-```
-
-### Task 4: Add Sound Feedback
-
-> Add basic sound effects for paddle hit, wall bounce, and score.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Add sound effects to my pygame ping pong game. Load .wav files for paddle hit, wall bounce, and scoring using pygame.mixer.Sound(). Play the sounds whenever ball.velocity_x or ball.velocity_y changes. Initialize pygame.mixer at the start of the file.
-```
+- W: Move player paddle up.  
+- S: Move player paddle down.  
+- After Game Over: press 3 for Best of 3, 5 for Best of 5, 7 for Best of 7, ESC to Exit.  
+- Close the window or use ESC on the replay menu to quit cleanly.  
 
 ---
 
-## Expected Behavior
+## How It Works
 
-- Smooth paddle movement using `W` and `S`
-- AI tracks and plays competitively
-- Ball rebounds on paddle and wall hits
-- Score updates on each miss
-- Game ends and optionally restarts when limit reached
+- The update loop moves the ball, immediately checks paddle collisions using rectangle overlap, and snaps the ball outside the paddle before reflecting horizontal velocity.  
+- Scores increment when the ball crosses a side boundary, with the ball reset to center for the next rally.  
+- When a side reaches the target score, a centered winner message is rendered and the game enters a non-playing state so the message remains visible.  
+- A replay menu is shown in the game over state, and selecting a series updates the target score to first-to (N//2 + 1) and resets positions to resume play.  
+
+---
+
+## Audio Notes
+
+- The mixer is initialized at startup, and synthetic sounds are created from NumPy int16 arrays using pygame.sndarray to avoid external assets.  
+- If your mixer is configured for stereo, arrays are produced in a 2D shape ((N, 2)) by duplicating the mono channel to satisfy pygame.mixer expectations.  
 
 ---
 
@@ -123,15 +77,17 @@ pygame-pingpong/
 
 ---
 
+## Troubleshooting
+
+- If “Array must be 2-dimensional for stereo mixer” appears, ensure the mixer is initialized before creating sounds so tone generation matches the active channel count.  
+- Verify Python and dependencies via `python --version` and `pip show pygame numpy` if encountering import or audio initialization issues.  
+
+---
+
 ## Submission Checklist
 
-- [] All 4 tasks completed
-- [] Game behaves as expected
-- [] No bugs or crashes
-- [] Code reviewed with LLM
-- [] Final score and winner display works correctly
-- [] Score appears correctly on both player and AI sides
-- [] Dependencies listed in `requirements.txt`
-- [] README is followed during setup and testing
-- [] Codebase is clean, modular, and understandable
-- [] Submission should include the Chat/LLM used Page link with the complete chat history.
+✅ All features implemented: collision, game over screen, replay menu, and sound effects.
+✅ Game runs without crashes and behaves as described.
+✅ Dependencies installed from requirements.txt.
+✅ README instructions followed for setup and running.
+✅ Codebase remains clean, modular, and understandable.
