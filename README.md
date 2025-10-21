@@ -1,4 +1,4 @@
-# Pygame Ping Pong
+# Pygame Ping Pong (SE - vibe-coding project)
 
 A simple real-time ping pong game built with Pygame featuring refined collisions, a game over screen, replay options (Best of 3/5/7), and lightweight synthetic sound effects generated with NumPy. 
 
